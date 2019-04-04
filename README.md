@@ -1,7 +1,7 @@
 # vuejs-interview-questions
-List of 300 VueJS Interview Questions
+Список из 300 вопросов и ответов для интервью по VueJS (перевод)
 
-> Жми :star:, если тебе пригодился мой список. Если увидите ошибку, сообщите об этом мне с помощью Issues.
+> Жми :star:, если тебе пригодился этот список. Если увидите ошибку, сообщите об этом в "Issues".
 
 Источник: [https://github.com/sudheerj/vuejs-interview-questions](https://github.com/sudheerj/vuejs-interview-questions)
 
@@ -9,9 +9,9 @@ List of 300 VueJS Interview Questions
 -------------------------------------------------------------------
 | № | Вопрос |
 |-- | ------
-|1  | [Что такое VueJS?](#what-is-vuejs) |
-|2  | [What are the major features of VueJS](#what-are-the-major-features-of-vuejs) |
-|3  | [What are the lifecycle methods of VueJS](#what-are-the-lifecycle-methods-of-vuejs)|
+|1  | [Что такое VueJS](#what-is-vuejs) |
+|2  | [Какие основные фичи у VueJS](#what-are-the-major-features-of-vuejs) |
+|3  | [Какие у VueJS методы жизненного цикла](#what-are-the-lifecycle-methods-of-vuejs)|
 |4  | [What are the conditional directives](#what-are-the-conditional-directives)|
 |5  | [What is the difference between v-show and v-if directives](#what-is-the-difference-between-v-show-and-v-if-directives)|
 |6  | [What is the purpose of v-for directive?](#what-is-the-purpose-of-v-for-directive)|
@@ -186,18 +186,19 @@ List of 300 VueJS Interview Questions
 |175| [What is namespacing in vuex](#what-is-namespacing-in-vuex)|
 
 1.  ### Что такое VueJS?
-    **Vue.js** is an open-source, progressive Javascript framework for building user interfaces that aim to be incrementally adoptable. The core library of VueJS is focused on the `view layer` only, and is easy to pick up and integrate with other libraries or existing projects.
-2.  ### What are the major features of VueJS?
-    Below are the some of major features available with VueJS
-    1. **Virtual DOM:** It uses virtual DOM similar to other existing frameworks such as ReactJS, Ember etc. Virtual DOM is a light-weight in-memory tree representation of the original HTML DOM and updated without affecting the original DOM.
-    2. **Components:** Used to create reusable custom elements in VueJS applications.
-    3. **Templates:** VueJS provides HTML based templates that bind the DOM with the Vue instance data
-    4. **Routing:** Navigation between pages is achieved through vue-router
-    5. **Light weight:** VueJS is light weight library compared to other frameworks
-3.  ### What are the lifecycle methods of VueJS?
-    Lifecycle hooks are a window into how the library you’re using works behind-the-scenes. By using these hooks, you will know when your component is created, added to the DOM, updated, or destroyed. Let's look at lifecycle diagram before going to each lifecycle hook in detail,
+    **Vue.js** это прогрессивный open-source фреймворк для разработки пользовательских интерфейсов, который стремиться быть легко внедряемым в процесс разработки. Ядро библиотеки VueJS фокусируется только на "слое отображения", потому его можно легко интегрировать с множеством библиотек и внедрить в существующие проекты.
+2.  ### Какие основные фичи у VueJS?
+    Ниже представлен список основных фич доступных во VueJS
+    1. **Виртуальный DOM:** VueJS использует виртульный DOM, такой же подход, как и у других существующих фреймворков (ReactJS, Ember и т.п.). Виртаульный DOM - это хранимая в памяти репрезентация оригинального HTML DOM-дерева, которая обновляется и изменяется не затрагивая при этом оригинальный DOM.
+    2. **Компоненты:** Используется для создания переиспользуемых компонентов в любых приложениях на VueJS.
+    3. **Шаблоны:** VueJS предоставляет возможности шаблонизации, которая связывает HTML-разметку с данными компонента и экземпляра класса Vue.
+    4. **Реактивность:** VueJS дает возможность создавать реактивные односторонние и двусторонние связи данных с их отображением.
+    5. **Роутинг:** Перемещение между страницами реализовано при помощи библиотеки vue-router
+    6. **Легковесный:** VueJS один из самых легковесных фреймворков в сравнении с другими
+3.  ### Какие у VueJS методы жизненного цикла?
+    Методы жизненного цикла - это ответ на вопрос, как работает библиотека "за кулисами". Используя эти методы, вы знаете в какой момент ваш компонент создан, добавлен в DOM-дерево, обновлен или разрушен. Давайте посмотрим на эту диаграмму, перед тем как обсудить каждый метод отдельно,
 
-    <img src="https://github.com/sudheerj/vuejs-interview-questions/blob/master/images/vuelifecycle.png" width="400" height="800">
+    <img src="https://github.com/magisters-org/vuejs-interview-questions-russian/blob/master/images/vuelifecycle.png" width="400" height="800">
 
     1. **Creation(Initialization):**
         Creation Hooks allow you to perform actions before your component has even been added to the DOM. You need to use these hooks if you need to set things up in your component both during client rendering and server rendering. Unlike other hooks, creation hooks are also run during server-side rendering.
