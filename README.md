@@ -12,8 +12,8 @@
 |1  | [Что такое VueJS](#what-is-vuejs) |
 |2  | [Какие основные фичи у VueJS](#what-are-the-major-features-of-vuejs) |
 |3  | [Какие у VueJS методы жизненного цикла](#what-are-the-lifecycle-methods-of-vuejs)|
-|4  | [What are the conditional directives](#what-are-the-conditional-directives)|
-|5  | [What is the difference between v-show and v-if directives](#what-is-the-difference-between-v-show-and-v-if-directives)|
+|4  | [С помощью какой директивы работает условный рендеринг](#what-are-the-conditional-directives)|
+|5  | [В чем разница между директивами v-show и v-if](#what-is-the-difference-between-v-show-and-v-if-directives)|
 |6  | [What is the purpose of v-for directive?](#what-is-the-purpose-of-v-for-directive)|
 |7  | [What is vue instance?](#what-is-vue-instance)|
 |8  | [How do you achieve conditional group of elements?](#how-do-you-achieve-conditional-group-of-elements)|
@@ -200,10 +200,10 @@
 
     <img src="https://github.com/magisters-org/vuejs-interview-questions-russian/blob/master/images/vuelifecycle.png" width="400" height="800">
 
-    1. **Creation(Initialization):**
-        Creation Hooks allow you to perform actions before your component has even been added to the DOM. You need to use these hooks if you need to set things up in your component both during client rendering and server rendering. Unlike other hooks, creation hooks are also run during server-side rendering.
+    1. **Создание (инициализация):**
+        Методы, вызываемые до и во время создания компонента, позволяют выполнять действия до того, как компонент будет добавлен в DOM. Вы можете использовать эти методы если хотите установить какие-то данные или что-то настроить в момент рендера на клиенте или сервере. Методы создания, в отличие от остальных методов, вызываются в момент серверного рендера.
         1. beforeCreate:
-           This hook runs at the very initialization of your component. hook observes data and initialization events in your component. Here, data is still not reactive and events that occur during the component’s lifecycle have not been set up yet.
+           Этот метод вызывается в самом начале инициализации компонента. В этот момент данные и события компонента готовятся к активации. На этом этапе данные еще не реактивны, а события все еще не установлены.
         ```javascript
             new Vue({
               data: {
@@ -211,49 +211,47 @@
               },
               beforeCreate: function () {
                 console.log('Nothing gets called at this moment')
-                // `this` points to the view model instance
-                console.log('count is ' + this.count);
+                // `this` указывает на VM (view-model) инстанс
+                console.log('count is ' + this.count); // count = undefined
               }
             })
-               // count is undefined
          ```
         2. created:
-            This hook is invoked when Vue has set up events and data observation. Here, events are active and access to reactive data is enabled though templates have not yet been mounted or rendered.
+            Этот метод вызывается когда Vue установил все события и наблюдает за данными. На этом этапе все события активны и имеют доступ к реактивным данным компонента, не смотря на то, что компонент еще не смонтирован или отрендерен.
         ```javascript
           new Vue({
             data: {
              count: 10
             },
             created: function () {
-              // `this` points to the view model instance
-              console.log('count is: ' + this.count)
+              // `this` указывает на VM (view-model) инстанс
+              console.log('count is: ' + this.count) // count = 10
             }
           })
-             // count is: 10
         ```
-        **Note:** Remember that, You will not have access to the DOM or the target mounting element (this.$el) inside of creation hooks
-    2. **Mounting(DOM Insertion):**
-        Mounting hooks are often the most-used hooks and they allow you to access your component immediately before and after the first render.
+        **ВНИМАНИЕ:** Запомните, что вы не имеете доступа к DOM-элементу или целевому монтируемому элементу (this.$el) внутри методов создания компонента.
+    2. **Монтирование (вставка в DOM):**
+        Методы монтирования самые используемые методы и позволяют получить доступ к компоненту непосредственно перед и после первого рендера.
         1. beforeMount:
-            The beforeMount allows you to access your component immediately before and after the first render.
+            Этот метод позволяет получить доступ к компоненту непосредственно перед его монтированием (первым рендером).
         ```javascript
           new Vue({
             beforeMount: function () {
               // `this` points to the view model instance
-              console.log(`this.$el is yet to be created`);
+              console.log(`this.$el вот-вот будет вмонтирован`);
             }
           })
         ```
         2. mounted:
-            This is a most used hook and you will have full access to the reactive component, templates, and rendered DOM (via. this.$el).  The most frequently used patterns are fetching data for your component.
+            Это самый популярный метод в котором вы имеете полный доступ к реактивным данным, компоненты, шаблону и отрендеренному DOM (через this.$el). Самое распространенное использование, это получение данных для компонента (например, через AJAX).
         ```javascript
-        <div id="app">
-            <p>I’m text inside the component.</p>
-        </div>
+          <div id="app">
+            <p>Это текст в компоненте</p>
+          </div>
           new Vue({
             el: ‘#app’,
             mounted: function() {
-              console.log(this.$el.textContent); // I'm text inside the component.
+              console.log(this.$el.textContent); // "Это текст в компоненте"
             }
           })
         ```
