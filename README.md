@@ -12,7 +12,7 @@
 |1  | [Что такое VueJS](#what-is-vuejs) |
 |2  | [Какие основные фичи у VueJS](#what-are-the-major-features-of-vuejs) |
 |3  | [Какие у VueJS методы жизненного цикла](#what-are-the-lifecycle-methods-of-vuejs)|
-|4  | [С помощью какой директивы работает условный рендеринг](#what-are-the-conditional-directives)|
+|4  | [Какие есть директивы условного рендера во VueJS](#what-are-the-conditional-directives)|
 |5  | [В чем разница между директивами v-show и v-if](#what-is-the-difference-between-v-show-and-v-if-directives)|
 |6  | [What is the purpose of v-for directive?](#what-is-the-purpose-of-v-for-directive)|
 |7  | [What is vue instance?](#what-is-vue-instance)|
@@ -255,15 +255,15 @@
             }
           })
         ```
-    3. **Updating (Diff & Re-render):**
-        Updating hooks are called whenever a reactive property used by your component changes, or something else causes it to re-render
+    3. **Обновление (поиск отличий и перерендер):**
+        Методы обновления вызываются когда реактивные данные были изменены, или что-то еще вызвало перерендер.
         1. beforeUpdate:
-        The beforeUpdate hook runs after data changes on your component and the update cycle begins, right before the DOM is patched and re-rendered.
+        Этот методы вызывается после изменений данных в компоненте, но перед применением этих изменений на DOM.
         ```javascript
-        <div id="app">
-          <p>{{counter}}</p>
-        </div>
-        ...// rest of the code
+          <div id="app">
+            <p>{{counter}}</p>
+          </div>
+          ...// другой код
           new Vue({
             el: '#app',
             data() {
@@ -271,24 +271,24 @@
                 counter: 0
               }
             },
-             created: function() {
+            created: function() {
               setInterval(() => {
                 this.counter++
               }, 1000)
             },
 
             beforeUpdate: function() {
-              console.log(this.counter) // Logs the counter value every second, before the DOM updates.
+              console.log(this.counter) // Логирует значение счетчика каждую секунду, перед обновлением DOM.
             }
           })
         ```
         2. updated:
             This hook runs after data changes on your component and the DOM re-renders.
         ```javascript
-        <div id="app">
-          <p ref="dom">{{counter}}</p>
-        </div>
-        ...//
+          <div id="app">
+            <p ref="dom">{{counter}}</p>
+          </div>
+          ...// другой код
           new Vue({
             el: '#app',
             data() {
@@ -296,25 +296,25 @@
                 counter: 0
               }
             },
-             created: function() {
+            created: function() {
               setInterval(() => {
                 this.counter++
               }, 1000)
             },
             updated: function() {
-              console.log(+this.$refs['dom'].textContent === this.counter) // Logs true every second
+              console.log(+this.$refs['dom'].textContent === this.counter) // логирует true каждую секунду
             }
           })
         ```
-    4. **Destruction (Teardown):**
-        Destruction hooks allow you to perform actions when your component is destroyed, such as cleanup or analytics sending.
+    4. **Демонтирование (отключение):**
+        Методы демонтирования позволяют выполнять действия когда ваш компонент по каким-либо причинам демонтируется (например, из-за v-if). В эти моменты можно очистить какие-либо даные из памяти или отправить аналитические данные.
         1. beforeDestroy:
-        `beforeDestroy` is fired right before teardown. If you need to cleanup events or reactive subscriptions, beforeDestroy would probably be the time to do it. Your component will still be fully present and functional.
+        `beforeDestroy` вызывается прямо перед отключением. Если вы хотите очистить события или подписки на какие-либо реактивные данные, это пожалуй лучший момент чтобы сделать это. Ваш компонент все еще доступен и полностью функционирует.
         ```javascript
         new Vue ({
           data() {
             return {
-              message: 'Welcome VueJS developers'
+              message: 'Добро пожаловать в мир VueJS'
             }
           },
 
@@ -325,17 +325,17 @@
         })
         ```
         2. destroyed:
-        This hooks is called after your component has been destroyed, its directives have been unbound and its event listeners have been removed.
+        Этот метод вызывается сразу после того, как компонент был полностью разрушен, директивы отвязаны и обработчики событий удалены.
         ```javascript
         new Vue ({
             destroyed: function() {
-              console.log(this) // Nothing to show here
+              console.log(this) // Здесь нечего логировать
             }
           })
         ```
 
-4.  ### What are the conditional directives?
-    VueJS provides set of directives to show or hide elements based on conditions. The available directives are: **v-if, v-else, v-else-if and v-show**
+4.  ### Какие есть директивы условного рендера во VueJS?
+    VueJS предлагает набор директив для показа или скрытия HTML-элементов, компонентов в зависимости от условий. Доступны следующие директивы: **v-if, v-else, v-else-if and v-show**
     
     **1. v-if:**  The v-if directive adds or removes DOM elements based on the given expression. For example, the below button will not show if isLoggedIn is set to false.
     ```javascript
