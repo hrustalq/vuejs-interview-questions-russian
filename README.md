@@ -14,7 +14,7 @@
 |3  | [Какие у VueJS методы жизненного цикла](#what-are-the-lifecycle-methods-of-vuejs)|
 |4  | [Какие есть директивы условного рендера во VueJS](#what-are-the-conditional-directives)|
 |5  | [В чем разница между директивами v-show и v-if](#what-is-the-difference-between-v-show-and-v-if-directives)|
-|6  | [What is the purpose of v-for directive?](#what-is-the-purpose-of-v-for-directive)|
+|6  | [Для чего используют директиву v-for](#what-is-the-purpose-of-v-for-directive)|
 |7  | [What is vue instance?](#what-is-vue-instance)|
 |8  | [How do you achieve conditional group of elements?](#how-do-you-achieve-conditional-group-of-elements)|
 |9  | [How do you reuse elements with key attribute?](#how-do-you-reuse-elements-with-key-attribute)|
@@ -336,47 +336,44 @@
 
 4.  ### Какие есть директивы условного рендера во VueJS?
     VueJS предлагает набор директив для показа или скрытия HTML-элементов, компонентов в зависимости от условий. Доступны следующие директивы: **v-if, v-else, v-else-if and v-show**
-    
-    **1. v-if:**  The v-if directive adds or removes DOM elements based on the given expression. For example, the below button will not show if isLoggedIn is set to false.
+    **1. v-if:**  Эта директива добавляет или удаляет DOM елемент в зависимости от результата указанного выражения. Например, в коде ниже кнопка не будет показана, если в isLoggedIn записано false.
     ```javascript
-    <button v-if="isLoggedIn">Logout</button>
+    <button v-if="isLoggedIn">Выйти</button>
     ```
-    You can also control multiple elements with a single v-if statement by wrapping all the elements in a `<template>` element with the condition. For example, you can have both label and button together conditionally applied,
+    Ты можешь также использовать эту директиву на нескольких элементах, обернув их в `<template>` и использую на нем директиву. Например, ты можешь одновременно скрывать/показывать и подпись и кнопку опираясь на условие. 
     ```javascript
     <template v-if="isLoggedIn">
-      <label> Logout </button>
-      <button> Logout </button>
+      <label>Выход: </button>
+      <button> Выйти </button>
     </template>
     ```
-    **2. v-else:**  This directive is used to display content only when the expression adjacent v-if resolves to false. This is similar to else block in any programming language to display alternative content and it is preceded by v-if or v-else-if block. You don't need to pass any value to this.
-    For example, v-else is used to display LogIn button if isLoggedIn is set to false(not logged in).
+    **2. v-else:**  Эта директива используется для отображения контента только если выражению для v-if возвращает false. Это очень схоже с блоком else в любом языке программирования для отображения альтернативного контента. В отличие от v-if и v-else-if не требует значения.
+    Например, v-else можно использовать для отображения кнопки "Войти" если isLoggedIn === false (не авторизован).
     ```javascript
-    <button v-if="isLoggedIn"> Logout </button>
-    <button v-else> Log In </button>
+    <button v-if="isLoggedIn"> Выйти </button>
+    <button v-else> Войти </button>
     ```
-    **3. v-else-if:** This directive is used when we need more than two options to be checked.
-    For example, we want to display some text instead of LogIn button when ifLoginDisabled property is set to true. This can be achieved through v-else statement.
+    **3. v-else-if:** Эта директива используется если нам необходимо проверить более одного условия и для каждого отобразить свой контент. Например, мы хотим отобразить какой-то текст вместо кнопки "Войти" когда ifLoginDisabled === true. При помощи v-else у нас не получится это реализовать.
     ```javascript
-    <button v-if="isLoggedIn"> Logout </button>
-    <label v-else-if="isLoginDisabled"> User login disabled </label>
-    <button v-else> Log In </button>
+    <button v-if="isLoggedIn"> Выйти </button>
+    <label v-else-if="isLoginDisabled"> Вход запрещен </label>
+    <button v-else> Войти </button>
     ```
 
-    **4. v-show:** This directive is similar to v-if but it renders all elements to the DOM and then uses the CSS display property to show/hide elements. This directive is recommended if the elements are switched on and off frequently.
+    **4. v-show:** Эта директива похожа на v-if, но она рендерит все элементы в DOM-дерево, а затем применяет на них CSS-свойство display для показа/скрытия элементов. Эта директива рекомендуется если элементы переключаются между состояниями очень часто.
     ```javascript
-    <span v-show="user.name">Welcome user,{{user.name}}</span>
+    <span v-show="user.name">Добро пожаловать, {{user.name}}</span>
     ```
-5.  ### What is the difference between v-show and v-if directives?
-    Below are some of the main differences between between **v-show** and **v-if** directives,
-
-    1. v-if only renders the element to the DOM if the expression passes whereas v-show renders all elements to the DOM and then uses the CSS display property to show/hide elements based on expression.
-    2. v-if supports v-else and v-else-if directives whereas v-show doesn't support else directives.
-    3. v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
-    4. v-if supports `<template>` tab but v-show doesn't support.
+5.  ### В чем разница между директивами v-show и v-if?
+    Ниже указаны основные различия между **v-show** и **v-if**:
+    1. v-if рендерит элемент в DOM-дереве только если выражение истинно, в то время как v-show рендерит их при любом условии, но скрывает при помощи CSS.
+    2. v-if поддерживает директивы v-else и v-else-if, в то время как v-show не имеет альтернативной директивы.
+    3. v-if требует больше ресурсов при переключении состояния для рендера, а v-show позволяет делать это максимально быстро, но с соответствующими ограничениями.
+    4. v-if поддерживает `<template>`, а v-show нет.
         
-6.  ### What is the purpose of v-for directive?
-    The built-in v-for directive allows us to loop through items in an array or object. You can iterate on each element in the array or object.
-    1. Array usage:
+6.  ### Для чего используют директиву v-for?
+    Встроенная директива v-for позволяет нам проходить по элементам массива, т.е. это привычный нам цикл в котором мы можем обратиться к содержимому каждого элемента. Как правило, это массив объектов.
+    1. Пример с массивом:
     ```javascript
     <ul id="list">
       <li v-for="(item, index) in items">
@@ -394,7 +391,7 @@
       }
     })
     ```
-    You can also use `of` as the delimiter instead of `in`, similar to javascript iterators.
+    Вы также можете использовать `of` в качестве разделителя вместо `in`, также как в итераторах javascript.
 
     2. Object usage:
     ```javascript
