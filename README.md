@@ -1,13 +1,15 @@
 # vuejs-interview-questions
 List of 300 VueJS Interview Questions
 
-> Click :star:if you like the project. Pull Requests are highly appreciated.
+> Жми :star:, если тебе пригодился мой список. Если увидите ошибку, сообщите об этом мне с помощью Issues.
 
-### Table of Contents
+Источник: [https://github.com/sudheerj/vuejs-interview-questions](https://github.com/sudheerj/vuejs-interview-questions)
+
+### Содержание
 -------------------------------------------------------------------
-| No. | Questions |
-|---- | ---------
-|1  | [What is VueJS](#what-is-vuejs) |
+| № | Вопрос |
+|-- | ------
+|1  | [Что такое VueJS?](#what-is-vuejs) |
 |2  | [What are the major features of VueJS](#what-are-the-major-features-of-vuejs) |
 |3  | [What are the lifecycle methods of VueJS](#what-are-the-lifecycle-methods-of-vuejs)|
 |4  | [What are the conditional directives](#what-are-the-conditional-directives)|
@@ -183,7 +185,7 @@ List of 300 VueJS Interview Questions
 |174| [What is module local state?](#what-is-module-local-state)|
 |175| [What is namespacing in vuex](#what-is-namespacing-in-vuex)|
 
-1.  ### What is VueJS?
+1.  ### Что такое VueJS?
     **Vue.js** is an open-source, progressive Javascript framework for building user interfaces that aim to be incrementally adoptable. The core library of VueJS is focused on the `view layer` only, and is easy to pick up and integrate with other libraries or existing projects.
 2.  ### What are the major features of VueJS?
     Below are the some of major features available with VueJS
