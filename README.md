@@ -15,10 +15,10 @@
 |4  | [Какие есть директивы условного рендера во VueJS](#what-are-the-conditional-directives)|
 |5  | [В чем разница между директивами v-show и v-if](#what-is-the-difference-between-v-show-and-v-if-directives)|
 |6  | [Для чего используют директиву v-for](#what-is-the-purpose-of-v-for-directive)|
-|7  | [What is vue instance?](#what-is-vue-instance)|
-|8  | [How do you achieve conditional group of elements?](#how-do-you-achieve-conditional-group-of-elements)|
-|9  | [How do you reuse elements with key attribute?](#how-do-you-reuse-elements-with-key-attribute)|
-|10 | [Why should not use if and for directives together on the same element?](#why-should-not-use-if-and-for-directives-together-on-the-same-element)|
+|7  | [Расскажите об экземпляре класса Vue](#what-is-vue-instance)|
+|8  | [Как добиться условного рендеринга группы элементов или компонентов?](#how-do-you-achieve-conditional-group-of-elements)|
+|9  | [В каком случае вы переиспользуете элемент с атрибутом "key"?](#how-do-you-reuse-elements-with-key-attribute)|
+|10 | [Почему не стоит использовать директивы v-for и v-if на одном и том же элементе?](#why-should-not-use-if-and-for-directives-together-on-the-same-element)|
 |11 | [Why do you need to use key attribute on for directive?](#why-do-you-need-to-use-key-attribute-on-for-directive)|
 |12 | [What are the array detection mutation methods?](#what-are-the-array-detection-mutation-methods)|
 |13 | [What are the array detection non mutation methods?](#what-are-the-array-detection-non-mutation-methods)|
@@ -198,7 +198,7 @@
 3.  ### Какие у VueJS методы жизненного цикла?
     Методы жизненного цикла - это ответ на вопрос, как работает библиотека "за кулисами". Используя эти методы, вы знаете в какой момент ваш компонент создан, добавлен в DOM-дерево, обновлен или разрушен. Давайте посмотрим на эту диаграмму, перед тем как обсудить каждый метод отдельно,
 
-    <img src="https://github.com/magisters-org/vuejs-interview-questions-russian/blob/master/images/vuelifecycle.png" width="400" height="800">
+    <img src="https://github.com/magisters-org/vuejs-interview-questions-russian/blob/master/images/vuelifecycle.png">
 
     1. **Создание (инициализация):**
         Методы, вызываемые до и во время создания компонента, позволяют выполнять действия до того, как компонент будет добавлен в DOM. Вы можете использовать эти методы если хотите установить какие-то данные или что-то настроить в момент рендера на клиенте или сервере. Методы создания, в отличие от остальных методов, вызываются в момент серверного рендера.
@@ -393,7 +393,7 @@
     ```
     Вы также можете использовать `of` в качестве разделителя вместо `in`, также как в итераторах javascript.
 
-    2. Object usage:
+    2. Пример с объектом:
     ```javascript
     <div id="object">
       <div v-for="(value, key, index) in user">
@@ -412,16 +412,16 @@
       }
     })
     ```
-7.  ### What is vue instance?
-    Every Vue application works by creating a new Vue instance with the Vue function. Generally the variable vm (short for ViewModel) is used to refer Vue instance. You can create vue instance as below,
+7.  ### Расскажите об экземпляре класса Vue
+    Каждое Vue-приложение работает на экзэмпляре класса Vue, который создается с помощью функции конструктора Vue(). Полный пример создания экзэмпляра vue:
     ```javascript
     var vm = new Vue({
-      // options
+      // параметры
     })
     ```
-    As mentioned in the above code snippets, you need to pass options object. You can find the full list of options in the API reference.
-8.  ### How do you achieve conditional group of elements?
-    You can achieve conditional group of elements(toggle multiple elements at a time) by applying **v-if** directive on `<template>` element which works as invisible wrapper(no rendering) for group of elements. For example, you can conditionally group user details based on valid user condition.
+    Функция принимает в качестве аргумента объект параметров. Полный список параметров функции конструктора vue вы можете посмотреть в официальной документации.
+8.  ### Как добиться условного рендеринга группы элементов или компонентов?
+    Мы можем добиться условного рендеринга группы элементов или компонентов применив директиву **v-if** на `<template>`, этим невидимым элементом мы обернем необходимый для скрытия контент. Пример такого приема можете посмотреть ниже:
     ```javascript
     <template v-if="condition">
       <h1>Name</h1>
@@ -429,34 +429,34 @@
       <p>Contact Details</p>
     </template>
     ```
-9.  ### How do you reuse elements with key attribute?
-    Vue always tries to render elements as efficient as possible. So it tries to reuse the elements instead of building them from scratch. But this behavior may cause problems in few scenarios. For example, if you try to render the same input element in both `v-if` and `v-else` blocks then it holds the previous value as below,
+9.  ### В каком случае вы переиспользуете элемент с атрибутом "key"?
+    Vue всегда рендерить элементы максимально эффективно. Для этого он пытается переиспользовать элементы вместо того, чтобы создавать новые с нуля. Однако, такой подход может вызывать проблемы в сценариях с одинаковыми элементами. Например, если вы попытаетесь отрендерить input одновременно и в `v-if` и в `v-else`, значение будет сохранено и перенесено из "другого" `input`. Код примера ниже:
     ```javascript
-    <template v-if="loginType === 'Admin'">
-      <label>Admin</label>
-      <input placeholder="Enter your ID">
+    <template v-if="loginType === 'admin'">
+      <label>Админ</label>
+      <input placeholder="Введите ваш ID">
     </template>
     <template v-else>
-      <label>Guest</label>
-      <input placeholder="Enter your name">
+      <label>Гость</label>
+      <input placeholder="Ваше имя">
     </template>
     ```
-    In this case, it shouldn't reuse. We can make both input elements as separate by applying **key** attribute as below,
+    В следующем случае элемент не будет переиспользован и значения будут разделены между уникальными input благодаря применения атрибута **key**. Код примера:
     ```javascript
-        <template v-if="loginType === 'Admin'">
-          <label>Admin</label>
-          <input placeholder="Enter your ID" key="admin-id">
-        </template>
-        <template v-else>
-          <label>Guest</label>
-          <input placeholder="Enter your name" key="user-name">
-        </template>
+    <template v-if="loginType === 'admin'">
+      <label>Админ</label>
+      <input placeholder="Введите ваш ID" key="admin-id">
+    </template>
+    <template v-else>
+      <label>Гость</label>
+      <input placeholder="Ваше имя" key="user-name">
+    </template>
     ```
-    The above code make sure both inputs are independent and doesn't impact each other.
-10. ### Why should not use if and for directives together on the same element?
-    It is recommended not to use v-if on the same element as v-for. Because v-for directive has a higher priority than v-if. There are two cases where developers try to use this combination,
-    1. To filter items in a list
-     For example, if you try to filter the list using v-if tag,
+    Можете убедиться, что в коде выше `input`-ы теперь независимы и не влияют друг на друга.
+10. ### Стоит ли использовать директивы v-for и v-if на одном и том же элементе?
+    Крайне не рекомендуется использовать v-for и v-if на одном и том же элементе, так как v-for имеет более высокий приоритет и такая фильтрация элементов оказывается неэффективной, а скорее даже, бесполезной, так как цикл пройдет по всем элементам. Есть несколько случаев, когда эта практика может показаться привлекательной для новичков:
+    1. Фильтрация списка
+    В этом коде мы проверяем стоит ли отобржать пользователя в списке **(плохой пример)**
      ```javascript
      <ul>
        <li
@@ -468,7 +468,7 @@
        <li>
      </ul>
      ```
-     This can be avoided by preparing the filtered list using computed property on the initial list
+     Вместо такого подхода, будет намного производительнее использовать **v-for** на `computed` с отфильтрованным массивом **(хороший пример)**:
      ```javascript
      computed: {
        activeUsers: function () {
@@ -488,8 +488,8 @@
      </ul>
 
      ```
-    2. To avoid rendering a list if it should be hidden
-     For example, if you try to conditionally check if the user is to be shown or hidden
+    2. Скрытие всего списка
+     В этом примере мы проверяете стоит ли отображать список **(плохой пример)**
      ```javascript
      <ul>
        <li
@@ -501,7 +501,7 @@
        <li>
      </ul>
      ```
-     This can be solved by moving the condition to a parent by avoiding this check for each user
+     Этого можно добиться используя v-if директиву на родительском элементе, чтобы не делать проверку каждую итерацию цикла
      ```javascript
      <ul v-if="shouldShowUsers">
        <li
