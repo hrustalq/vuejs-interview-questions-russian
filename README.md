@@ -19,11 +19,11 @@
 |8  | [Как добиться условного рендеринга группы элементов или компонентов?](#how-do-you-achieve-conditional-group-of-elements)|
 |9  | [В каком случае вы переиспользуете элемент с атрибутом "key"?](#how-do-you-reuse-elements-with-key-attribute)|
 |10 | [Почему не стоит использовать директивы v-for и v-if на одном и том же элементе?](#why-should-not-use-if-and-for-directives-together-on-the-same-element)|
-|11 | [Why do you need to use key attribute on for directive?](#why-do-you-need-to-use-key-attribute-on-for-directive)|
-|12 | [What are the array detection mutation methods?](#what-are-the-array-detection-mutation-methods)|
-|13 | [What are the array detection non mutation methods?](#what-are-the-array-detection-non-mutation-methods)|
-|14 | [What are the caveats of array changes detection?](#what-are-the-caveats-of-array-changes-detection)|
-|15 | [What are the caveats of object changes detection?](#what-are-the-caveats-of-object-changes-detection)|
+|11 | [Почему нам нужно использовать атрибут key вместе с директивой v-for?](#why-do-you-need-to-use-key-attribute-on-for-directive)|
+|12 | [Какие методы массивов во vue запускают обновление отображения?](#what-are-the-array-detection-mutation-methods)|
+|13 | [Какие методы массивов во vue не запускают обновление отображения?](#what-are-the-array-detection-non-mutation-methods)|
+|14 | [Каковы особенности обнаружения изменений в массиве?](#what-are-the-caveats-of-array-changes-detection)|
+|15 | [Каковы особенности обнаружения изменений в объекте?](#what-are-the-caveats-of-object-changes-detection)|
 |16 | [How do you use for directive with a range?](#how-do-you-use-for-directive-with-a-range)|
 |17 | [How do you use for directive on template?](#how-do-you-use-for-directive-on-template)|
 |18 | [How do you use event handlers?](#how-do-you-use-event-handlers)|
@@ -512,17 +512,16 @@
        <li>
      </ul>
      ```
-11.  ### Why do you need to use key attribute on for directive?
-     In order to track each node’s identity, and thus reuse and reorder existing elements, you need to provide a unique `key` attribute for each item with in `v-for` iteration. An ideal value for key would be the unique id of each item. Let us take an example usage,
+11.  ### Почему нам нужно использовать атрибут key вместе с директивой v-for?
+     Для того чтобы отслеживать каждый уникальный элемент, и в дальнейшем эффективно их переиспользовать, нам нужен атрибут `key` с уникальным значением для каждого элемента в цикле `v-for`. В идеале это должен быть уникальный идентификатор сущности. Пример кода:
      ```javascript
      <div v-for="item in items" :key="item.id">
        {{item.name}}
      </div>
      ```
-     Hence, It is always recommended to provide a key with v-for whenever possible, unless the iterated DOM content is simple.
-     **Note:** You shouldn’t use non-primitive values like objects and arrays as v-for keys. Use string or numeric values instead.
-12.  ### What are the array detection mutation methods?
-     As the name suggests, mutation methods modifies the original array. Below are the list of array mutation methods which trigger view updates.
+     **Замечание:** Не стоит использовать в качестве ключа не примитивные типы данных, например объекты или массивы. Лучше использовать строки или числа.
+12.  ### Какие методы массивов во vue запускают обновление отображения?
+     Следующие методы при их использовании на реактивном массиве вызовут обновление отображения:
      1. push()
      2. pop()
      3. shift()
@@ -530,51 +529,44 @@
      5. splice()
      6. sort()
      7. reverse()
-     
-     If you perform any of the above mutation method on the list then it triggers view update. For example, push method on array named 'items' trigger a view update,
-     ```javascript
-     vm.todos.push({ message: 'Baz' })
-     ```
-13.  ### What are the array detection non-mutation methods?
-     The methods which do not mutate the original array but always return a new array are called non-mutation methods. Below are the list of non-mutation methods,
+13.  ### Какие методы массивов во vue не запускают обновление отображения?
+     Методы, которые не мутируют оригинальный массив, но всегда возвращают новый массив, называют немутационными методами. Следующие методы не запускают обновление отображения:
      1. filter()
      2. concat()
      3. slice()
 
-     For example, lets take a todo list where it replaces the old array with new one based on status filter,
+     Для примера давайте возьмем список задач, и перезапишем его на основе фильтрующей функции по статусу задачи:
      ```javascript
      vm.todos = vm.todos.filter(function (todo) {
        return todo.status.match(/Completed/)
      })
      ```
-     This approach won't re-render the entire list due to VueJS implementation.
-14.  ### What are the caveats of array changes detection?
-     Vue cannot detect changes for the array in the below two cases,
-
-     1. When you directly set an item with the index,For example,
-        ```javascript
-        vm.todos[indexOfTodo] = newTodo
-        ```
-     2. When you modify the length of the array, For example,
+     Данный подход не даст желаемого результата, из-за внутренней реализации списков во VueJS.
+14.  ### Каковы особенности обнаружения изменений в массиве?
+     Vue не может определить изменения в массиве в следующих случаях:
+     1. Когда вы напрямую меняете элемент массива, обращаясь по индексу, например:
+      ```javascript
+      vm.todos[indexOfTodo] = newTodo
+      ```
+     2. Когда вы меняете длинну массива напрямую, например:
       ```javascript
       vm.todos.length = todosLength
       ```
-     You can overcome both the caveats using `set` and `splice` methods, Let's see the solutions with an examples,
-     
-     **First use case solution**
+     Вы можете достичь этих целей при помощи методов `set` и `splice`, например:
+     **Первый случай**
      ```javascript
      // Vue.set
      Vue.set(vm.todos, indexOfTodo, newTodoValue)
-     (or)
+     // или
      // Array.prototype.splice
      vm.todos.splice(indexOfTodo, 1, newTodoValue)
      ```
-     **Second use case solution**
+     **Второй случай**
      ```javascript
      vm.todos.splice(todosLength)
      ```
-15.  ### What are the caveats of object changes detection?
-     Vue cannot detect changes for the object in property addition or deletion., Lets take an example of user data changes,
+15.  ### Каковы особенности обнаружения изменений в объекте?
+     Vue не может определить удаление и добаление новый свойств у объекта. Давайте рассмотрим пример:
      ```javascript
      var vm = new Vue({
        data: {
@@ -584,14 +576,14 @@
        }
      })
 
-     // `vm.name` is now reactive
+     // `vm.user.name` реактивное свойство
 
-     vm.email = john@email.com // `vm.email` is NOT reactive
+     vm.email = john@email.com // `vm.email` не реактивное
      ```
-     You can overcome this scenario using the Vue.set(object, key, value) method or Object.assign(),
+     Для того чтобы реализовать этот сценарий мы можем использовать метод Vue.set(object, key, value) или Object.assign(),
      ```javascript
      Vue.set(vm.user, 'email', john@email.com);
-     (or)
+     // или
      vm.user = Object.assign({}, vm.user, {
        email: john@email.com
      })
