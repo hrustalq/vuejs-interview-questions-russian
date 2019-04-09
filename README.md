@@ -1,9 +1,10 @@
-# vuejs-interview-questions
-Список из 300 вопросов и ответов для интервью по VueJS (перевод)
+# Вопросы для собеседование Vue-разработчика
+Список из вопросов и ответов для проведения собеседования (интервью) по VueJS
 
 > Жми :star:, если тебе пригодился этот список. Если увидите ошибку, сообщите об этом в "Issues".
 
 Источник: [https://github.com/sudheerj/vuejs-interview-questions](https://github.com/sudheerj/vuejs-interview-questions)
+Перевод и редактура: [Владислав Гриценко](https://vk.com/abyss_dnb) - [Noveo](https://noveogroup.ru/)
 
 ### Содержание
 -------------------------------------------------------------------
