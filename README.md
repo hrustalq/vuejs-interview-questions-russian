@@ -4,7 +4,7 @@
 > Жми :star:, если тебе пригодился этот список. Если увидите ошибку, сообщите об этом в "Issues".
 
 Источник: [https://github.com/sudheerj/vuejs-interview-questions](https://github.com/sudheerj/vuejs-interview-questions)
-Перевод и редактура: [Владислав Гриценко](https://vk.com/abyss_dnb) - [Noveo](https://noveogroup.ru/)
+Перевод и редактура: [Владислав Гриценко](https://vk.com/abyss_dnb) - [Magisters](https://magisters.cc/)
 
 ### Содержание
 -------------------------------------------------------------------
